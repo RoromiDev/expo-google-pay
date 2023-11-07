@@ -1,4 +1,4 @@
-node_modules/*
-android/*
-example/*
-build/*
+node_modules/
+android/
+example/
+build/
