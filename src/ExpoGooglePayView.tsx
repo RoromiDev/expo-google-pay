@@ -1,11 +1,10 @@
 import { requireNativeViewManager } from "expo-modules-core";
 import * as React from "react";
 
-import { ExpoGooglePayViewProps } from "./ExpoGooglePay.types";
+const NativeView = requireNativeViewManager("ExpoGooglePay");
 
-const NativeView: React.ComponentType<ExpoGooglePayViewProps> =
-  requireNativeViewManager("ExpoGooglePay");
+const ExpoGooglePay = React.forwardRef((props, ref) => {
+  return <NativeView {...props} ref={ref} />;
+});
 
-export default function ExpoGooglePayView(props: ExpoGooglePayViewProps) {
-  return <NativeView {...props} />;
-}
+export default ExpoGooglePay;
