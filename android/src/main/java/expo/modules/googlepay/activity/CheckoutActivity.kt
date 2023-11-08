@@ -69,12 +69,8 @@ class CheckoutActivity : AppCompatActivity() {
         )
         googlePayButton.setOnClickListener { requestPayment() }
 
-        addToGoogleWalletButton = layout.addToGoogleWalletButton.root
-        addToGoogleWalletButton.setOnClickListener { requestSavePass() }
-
         // Check Google Pay availability
         model.canUseGooglePay.observe(this, Observer(::setGooglePayAvailable))
-        model.canSavePasses.observe(this, Observer(::setAddToGoogleWalletAvailable))
     }
 
     /**
@@ -91,24 +87,6 @@ class CheckoutActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 R.string.google_pay_status_unavailable,
-                Toast.LENGTH_LONG
-            ).show()
-        }
-    }
-
-    /**
-     * If the Google Wallet API is available, show the button to Add to Google Wallet. Please adjust to fit
-     * in with your current user flow.
-     *
-     * @param available
-     */
-    private fun setAddToGoogleWalletAvailable(available: Boolean) {
-        if (available) {
-            layout.passContainer.visibility = View.VISIBLE
-        } else {
-            Toast.makeText(
-                this,
-                R.string.google_wallet_status_unavailable,
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -201,9 +179,10 @@ class CheckoutActivity : AppCompatActivity() {
                     .getString("token")
             )
 
-            startActivity(Intent(this, CheckoutSuccessActivity::class.java))
+            // TODO: replace with onSuccess startActivity(Intent(this, CheckoutSuccessActivity::class.java))
 
         } catch (error: JSONException) {
+            // TODO: replace with onError
             Log.e("handlePaymentSuccess", "Error: $error")
         }
     }
@@ -219,14 +198,6 @@ class CheckoutActivity : AppCompatActivity() {
      */
     private fun handleError(statusCode: Int, message: String?) {
         Log.e("Google Pay API error", "Error code: $statusCode, Message: $message")
-    }
-
-    private fun requestSavePass() {
-
-        // Disables the button to prevent multiple clicks.
-        addToGoogleWalletButton.isClickable = false
-
-        model.savePassesJwt(model.genericObjectJwt, this, addToGoogleWalletRequestCode)
     }
 
     @Deprecated("Deprecated and in use by Google Pay")
