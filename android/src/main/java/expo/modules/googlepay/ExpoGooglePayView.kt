@@ -12,6 +12,7 @@ import expo.modules.kotlin.AppContext
 import expo.modules.googlepay.databinding.ActivityCheckoutBinding
 import expo.modules.googlepay.util.PaymentsUtil
 import expo.modules.googlepay.activity.CheckoutActivity
+import expo.modules.googlepay.activity.CheckoutFragment
 import expo.modules.googlepay.R
 import expo.modules.googlepay.util.Json
 import android.util.Log
@@ -26,10 +27,16 @@ import android.content.Intent
 import com.google.android.gms.wallet.button.ButtonOptions
 import com.google.android.gms.wallet.button.PayButton
 import com.google.android.gms.wallet.PaymentData
+import androidx.appcompat.app.AppCompatActivity
 
 class ExpoGooglePayView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
     init {
-        val intent = Intent(context, CheckoutActivity::class.java).apply {}
-        context.startActivity(intent)
+        if (context is AppCompatActivity) {
+            val fragmentManager = context.supportFragmentManager
+            val fragmentTransaction = fragmentManager.beginTransaction()
+
+            fragmentTransaction.replace(R.id.fragment_container, CheckoutFragment())
+            fragmentTransaction.commit()
+        }
     }
 }
