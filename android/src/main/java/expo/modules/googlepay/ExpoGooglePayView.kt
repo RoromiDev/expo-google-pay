@@ -31,12 +31,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class ExpoGooglePayView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
     init {
-        if (context is AppCompatActivity) {
-            val fragmentManager = context.supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction()
-
-            fragmentTransaction.replace(R.id.fragment_container, CheckoutFragment())
-            fragmentTransaction.commit()
-        }
+        val intent = Intent(context, CheckoutActivity::class.java).apply {}
+        context.startActivity(intent)
     }
 }
